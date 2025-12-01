@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zagger YAML Previewer
 
-## Getting Started
+Zagger is a minimal, no-auth web application for editing, previewing, and sharing Swagger/OpenAPI YAML files.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Interactive Editor**: Monaco-based YAML editor with syntax highlighting.
+- **Live Preview**: Real-time API documentation rendering using Swagger UI.
+- **Split View**: Side-by-side editor and preview.
+- **Shareable Links**: Generate public, read-only links to share your API specs.
+- **Standalone Viewer**: Dedicated view-only mode for shared links.
+- **Responsive Design**: Works on desktop and mobile.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup & Running Locally
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  **Clone the repository** (or navigate to the directory).
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
+3.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
+4.  Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment
 
-## Learn More
+This project is built with Next.js.
 
-To learn more about Next.js, take a look at the following resources:
+### Important Note on Storage
+The current implementation uses **local file system storage** (`./data` directory) for saving shared YAML files.
+- **VPS / Docker**: Works out of the box. Data will persist if the volume is mounted.
+- **Serverless (Vercel/Netlify)**: **NOT PERSISTENT**. Files saved will be lost when the lambda function freezes or redeploys. For serverless deployment, you must swap `lib/storage.ts` to use a database (Postgres, MongoDB) or object storage (S3, Vercel Blob).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Architecture
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Frontend**: Next.js (App Router), React, Tailwind CSS.
+- **Editor**: `@monaco-editor/react`.
+- **Preview**: `swagger-ui-react`.
+- **Backend**: Next.js API Routes.
+- **Storage**: Simple file-based storage (JSON/YAML files in `data/`).
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/page.tsx`: Main editor and preview interface.
+- `app/view/[id]/page.tsx`: Standalone read-only viewer.
+- `app/api/share/route.ts`: API endpoint to save YAML.
+- `components/`: Reusable UI components (Editor, Preview).
+- `lib/storage.ts`: Storage logic.
