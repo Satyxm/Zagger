@@ -9,7 +9,9 @@ The "Share" functionality in this application requires **Vercel KV** (Redis) to 
 1.  **Create a KV Database**:
     - Go to your Vercel Dashboard.
     - Navigate to the "Storage" tab.
-    - Click "Create Database" and select "KV".
+    - Click "Create Database".
+    - If "Vercel KV" is not immediately visible, look for **"Upstash"** or **"Redis"** in the Marketplace section. Vercel KV is powered by Upstash, so selecting Upstash is effectively the same.
+    - Select "Upstash" or "Vercel KV".
     - Give it a name (e.g., `zagger-kv`) and select a region.
 
 2.  **Link to Project**:
