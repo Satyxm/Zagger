@@ -19,7 +19,11 @@ export async function saveSpec(content: string): Promise<string> {
     } else {
         // If in production but KV is not configured, throw an error
         if (isProduction) {
-            throw new Error('Vercel KV is not configured. Please link a KV database in your Vercel project settings.');
+            const missingVars = [];
+            if (!process.env.KV_REST_API_URL) missingVars.push('KV_REST_API_URL');
+            if (!process.env.KV_REST_API_TOKEN) missingVars.push('KV_REST_API_TOKEN');
+
+            throw new Error(`Vercel KV is not configured. Missing environment variables: ${missingVars.join(', ')}. Please link a KV database in your Vercel project settings.`);
         }
 
         // Fallback to filesystem (Local Development only)

@@ -14,6 +14,7 @@ export async function POST(request: Request) {
     } catch (error) {
         console.error('Share error:', error);
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        return NextResponse.json({ error: 'Failed to save', details: errorMessage }, { status: 500 });
+        // Return the specific error message so the client can display it
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }

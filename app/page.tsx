@@ -24,10 +24,12 @@ export default function Home() {
       const data = await res.json();
       if (data.url) {
         setShareUrl(data.url);
+      } else if (data.error) {
+        alert(data.error);
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to share");
+      alert("Failed to share. Please try again.");
     } finally {
       setLoading(false);
     }
