@@ -13,6 +13,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ id, url });
     } catch (error) {
         console.error('Share error:', error);
-        return NextResponse.json({ error: 'Failed to save' }, { status: 500 });
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        return NextResponse.json({ error: 'Failed to save', details: errorMessage }, { status: 500 });
     }
 }
